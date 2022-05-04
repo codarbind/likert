@@ -1,0 +1,138 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 16, 2022 at 10:51 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `cyber_pulze`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth`
+--
+
+CREATE TABLE `auth` (
+  `ID` int(11) NOT NULL,
+  `name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `salt` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hash` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `compId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `auth`
+--
+
+INSERT INTO `auth` (`ID`, `name`, `salt`, `hash`, `compId`) VALUES
+(1, 'admin@cyberpulse.com', 'salt', '408ab5e7913d41ddbd3ef684c934d4bf8f188c4451e16a872873dcba7884cd68b48ff42900e7e1a6dd9c00b148b832b977c267450b2844a42de4f16cbbee6baa', 0),
+(2, 'gtb@cyberpulse.com', 'salt', 'ff78ca589d88d7bd8ccafca6db350a20d72143e7b76764486382e383858b3b46f116171ca7d0e0394a2fcc0b235874051755f8ebf0ded78a08f1bb530813f7b8', 2),
+(3, 'cyberpulse@cyberpulse.com', 'salt', '408ab5e7913d41ddbd3ef684c934d4bf8f188c4451e16a872873dcba7884cd68b48ff42900e7e1a6dd9c00b148b832b977c267450b2844a42de4f16cbbee6baa', 1),
+(4, 'admin@oxfordsystems.org', '164870f2327095981a661f9be971f46d', '4dc47729191aeafef3efbdcdff9e5dbf4ce8bfcc7f0a0703300d42ad7bd2cc1131c275a03a64261fa2976a719ebebd80531985394b2231e5667c6891c20a6b0c', 4),
+(5, 'Nobel', 'c34e19268cdb073ef694e927c1fab193', 'f700fe0be61f2c25a837e3b94cbe3fcad0b24e58108349ae02d30949a4c7d44ad91809feb060599f41ed469463c1e7136a1c6c3b734184defd121ec9f6dd8a86', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `session_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `expires` int(10) UNSIGNED NOT NULL,
+  `data` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `token`
+--
+
+CREATE TABLE `token` (
+  `id` int(100) NOT NULL,
+  `auth_id` int(100) NOT NULL,
+  `token` varchar(256) NOT NULL,
+  `createdAT` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `token`
+--
+
+INSERT INTO `token` (`id`, `auth_id`, `token`, `createdAT`) VALUES
+(11, 1, 'C???Ng4ӱ??J⾬޺?Ah????/-?_&5?n!ٱ?}H=O?#??j&????ї\r.? \'A??', '1647224023117'),
+(12, 1, '*???[U3Sgr|yw?<???F????{a?4\"J?????s?/?a:?]y?g??/???g?s????', '1647224040858'),
+(13, 1, '1??	?q/?u&<,?,\Z?K??[^?b?????Ǟ6?M?&<<??QWi?r???.?FUti', '1647224103801'),
+(14, 1, 'ؿ?.u??G0N??(???)&?}????.???>?8?Y[[+lF?<?1?-?L??q?\'????', '1647224113744'),
+(15, 1, '??fJ??Tb-?>?#???\nl7??p?R??k0????lѵ??U`?Я?????D????.W??J#?', '1647224269423'),
+(17, 1, 'c24TLC5t7gwVdeCd', '1647288928595');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `auth`
+--
+ALTER TABLE `auth`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`session_id`);
+
+--
+-- Indexes for table `token`
+--
+ALTER TABLE `token`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `auth_id` (`auth_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `auth`
+--
+ALTER TABLE `auth`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `token`
+--
+ALTER TABLE `token`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `token`
+--
+ALTER TABLE `token`
+  ADD CONSTRAINT `token_ibfk_1` FOREIGN KEY (`auth_id`) REFERENCES `auth` (`ID`) ON DELETE NO ACTION ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
